@@ -23,7 +23,8 @@
 			"enablePullDownRefresh": false
 		}
 
-	}],
+	}  
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "圆圆优购",
@@ -60,5 +61,18 @@
 			"selectedIconPath": "static/tab_icons/my-active.png"
 
 		}]
-	}
+	},
+	"subPackages": [
+		{
+			"root": "subpkg",
+			"pages": [
+				{
+					"path": "goods_detail/goods_detail",
+					"style": {
+						
+					}
+				}
+			]
+		}
+	]
 }
