@@ -1,5 +1,11 @@
 <template>
 	<view>
+		
+		<view class="search_box">
+			<my-search @click="gotoSearch"></my-search>
+		</view>
+		
+		<!-- 轮播图区域 -->
 		<swiper :indicator-dots="true" :autoplay="true" :interval="3000" :duration="1000" :circular="true">
 			<swiper-item v-for="(item,i) in swiperList" :key="i">
 				<navigator class="swiper-item" :url="'/subpkg/goods_detail/goods_detail?goods_id='+item.goods_id">
@@ -52,6 +58,11 @@
 			};
 		},
 		methods:{
+			gotoSearch(){
+				uni.navigateTo({
+					url:'/subpkg/search/search'
+				})
+			},
 			nav_handler(item){
 				if(item.name === '分类'){
 					uni.switchTab({
@@ -131,4 +142,10 @@
 		flex-wrap: wrap;
 		justify-content: space-around;
 	}
+	
+.search_box{
+	position: sticky;
+	top: 0;
+	z-index: 999;
+}
 </style>

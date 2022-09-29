@@ -1,5 +1,8 @@
 <template>
 	<view>
+		<my-search @click="gotoSearch"></my-search>
+
+		
 		<view class="scroll-view-container">
 			<!-- 左侧的滑动区域 -->
 			<scroll-view class="left-scroll-view" scroll-y="true" :style="{height:wh+'px'}">
@@ -18,6 +21,7 @@
 						<view class="cate-lv3-item" v-for="(item3,i3) in item2.children" :key="i3" @click="gotoGoodsList(item3)">
 							<!-- 图片 -->
 							<image :src="item3.cat_icon"></image>
+							<!-- <image src="/images/paopao.jpg" mode="heightFix"></image> -->
 							<!-- 文本 -->
 							<text>{{item3.cat_name}}</text>
 						</view>
@@ -29,6 +33,7 @@
 </template>
 
 <script>
+	
 	export default {
 		data() {
 			return {
@@ -40,6 +45,11 @@
 			};
 		},
 		methods:{
+			gotoSearch(){
+				uni.navigateTo({
+					url:'/subpkg/search/search'
+				})
+			},
 			gotoGoodsList(item3){
 				uni.navigateTo({
 					url:'/subpkg/goods_list/goods_list?cid=' + item3.cat_id
@@ -61,7 +71,7 @@
 		},
 		onLoad(){
 			const sysInfo = uni.getSystemInfoSync()
-			this.wh = sysInfo.windowHeight
+			this.wh = sysInfo.windowHeight - 50
 			
 			this.getCateList()
 		}
@@ -118,8 +128,8 @@
 				align-items: center;
 				margin-bottom: 10px;
 				image{
-					width: 60px;
 					height: 60px;
+					width: 60px;
 				}
 				
 				text{
@@ -129,4 +139,6 @@
 		}
 	}
 }
+
+
 </style>
