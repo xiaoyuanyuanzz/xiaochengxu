@@ -17,11 +17,11 @@
 			<!-- 搜索历史标题 -->
 			<view class="history-title">
 				<text>搜索历史</text>
-				<uni-icons type="trash" size="17"></uni-icons>
+				<uni-icons type="trash" size="17" @click="clean"></uni-icons>
 			</view>
 			<!-- 搜索列表 -->
 			<view class="history-list">
-				<uni-tag v-for="(item,i) in historys" :key="i" :text="item"></uni-tag>
+				<uni-tag v-for="(item,i) in historys" :key="i" :text="item" @click="gotoGoodsList(item)"></uni-tag>
 			</view>
 		</view>
 	</view>
@@ -39,6 +39,12 @@
 			};
 		},
 		methods:{
+			
+			gotoGoodsList(kw){
+				uni.navigateTo({
+					url:'/subpkg/goods_list/goods_list?query='+kw
+				})
+			},
 			input(e){
 				//清除timer对应的延时器
 				clearTimeout(this.timer)
@@ -74,12 +80,21 @@
 				set.add(this.kw)
 				
 				this.historyList = Array.from(set)
+				//将历史记录保存到本地
+				uni.setStorageSync('kw',JSON.stringify(this.historyList))
+			},
+			clean(){
+				this.historyList = []
+				uni.setStorageSync('kw','[]')
 			}
 		},
 		computed:{
 			historys(){
 				return [...this.historyList].reverse()
 			}
+		},
+		onLoad(){
+			this.historyList = JSON.parse(uni.getStorageSync('kw')) || []
 		}
 	}
 </script>
