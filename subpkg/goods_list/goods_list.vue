@@ -77,7 +77,15 @@
 			this.goodsList = []
 			
 			/* 2.重新发起请求 */
-			this.getGoodsList(()=>uni.stopPullDownRefresh())
+			setTimeout(()=>{
+				this.getGoodsList(()=>uni.stopPullDownRefresh())
+				setTimeout(()=>{
+					uni.$showMsg('刷新成功！')
+				},100)
+				
+			},300)
+			
+			
 		}
 	}
 </script>
