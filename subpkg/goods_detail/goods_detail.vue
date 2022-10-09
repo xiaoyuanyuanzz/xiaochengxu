@@ -38,6 +38,10 @@
 </template>
 
 <script>
+	//从vuex中按需导出mapState辅助方法
+	import {mapState,mapMutations,mapGetters} from 'vuex'
+	import moduleCart from '@/store/cart.js'
+	
 	export default {
 		data() {
 			return {
@@ -51,7 +55,7 @@
 					},{
 						icon:'cart',
 						text:'购物车',
-						info:2
+						info:''
 					}
 				],
 				//右侧按钮组的配置对象
@@ -71,6 +75,7 @@
 		onLoad(options){
 			const goods_id = options.goods_id
 			this.getGoodsDetail(goods_id)
+			
 		},
 		methods:{
 			//定义请求商品详情数据的方法
@@ -97,8 +102,41 @@
 						url:'/pages/cart/cart'
 					})
 				}
+			},
+			...mapMutations('m_cart',['addToCart']),
+			buttonClick(e){
+				if(e.content.text === '加入购物车'){
+					//组织一个商品的信息对象
+					const goods = {
+						goods_id:this.goods_info.goods_id,
+						goods_name:this.goods_info.goods_name,
+						goods_price:this.goods_info.goods_price,
+						goods_count:1,
+						goods_small_logo:this.goods_info.goods_small_logo,
+						goods_state:true  //商品的勾选状态
+					}
+					this.addToCart(goods)
+				}
+			}
+		},
+ 		computed:{
+			...mapState('m_cart',[]),
+			...mapGetters('m_cart',['total'])
+		},
+		watch:{
+			total:{
+				handler(newVal){
+					//通过find方法，找到购物车按钮的配置对象
+					const findResult = this.options.find(x=>x.text === '购物车')
+					if(findResult){
+						findResult.info = newVal
+					}
+				},
+				//immediate属性用来声明此侦听器，是否在页面初次加载完毕后立即调用
+				immediate:true
 			}
 		}
+
 	}
 </script>
 
